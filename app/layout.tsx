@@ -8,7 +8,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "DesignBase — Build Design Systems",
+  title: "Ergo, Design — Build Design Systems",
   description: "The collaborative platform for building and managing design systems.",
 };
 

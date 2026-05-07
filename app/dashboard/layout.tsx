@@ -29,7 +29,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Sidebar */}
       <aside className="w-60 shrink-0 flex flex-col bg-white border-r border-gray-100 py-6">
         <div className="px-6 mb-8">
-          <span className="text-lg font-bold text-gray-900">DesignBase</span>
+          <span className="text-lg font-bold text-gray-900">Ergo, Design</span>
         </div>
         <nav className="flex flex-col gap-1 px-3 flex-1">
           {navItems.map((item) => {

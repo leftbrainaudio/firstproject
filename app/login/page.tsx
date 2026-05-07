@@ -27,7 +27,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 font-[family-name:var(--font-geist-sans)]">
-      <Link href="/" className="text-2xl font-bold text-gray-900 mb-8">DesignBase</Link>
+      <Link href="/" className="text-2xl font-bold text-gray-900 mb-8">Ergo, Design</Link>
       <div className="w-full max-w-sm bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
         <h1 className="text-xl font-bold text-gray-900 mb-1">Welcome back</h1>
         <p className="text-sm text-gray-500 mb-6">Sign in to your account</p>

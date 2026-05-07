@@ -21,7 +21,7 @@ export default function LandingPage() {
         style={{ borderBottom: "1px solid var(--ds-color-border-default)" }}
       >
         <span className="text-xl font-bold tracking-tight" style={{ color: "var(--ds-color-text-primary)" }}>
-          DesignBase
+          Ergo, Design
         </span>
         <div className="flex items-center gap-4">
           <ThemeToggle />
@@ -51,7 +51,7 @@ export default function LandingPage() {
           <span style={{ color: "var(--ds-color-accent-default)" }}>scale with your team</span>
         </h1>
         <p className="mt-6 text-lg max-w-xl" style={{ color: "var(--ds-color-text-secondary)" }}>
-          DesignBase is the single source of truth for your design tokens, components, and
+          Ergo, Design is the single source of truth for your design tokens, components, and
           documentation — keeping designers and engineers perfectly in sync.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row gap-4">
@@ -104,7 +104,7 @@ export default function LandingPage() {
       <section className="py-20 px-6 text-center" style={{ background: "var(--ds-color-accent-default)" }}>
         <h2 className="text-3xl font-bold text-white mb-4">Ready to unify your design system?</h2>
         <p className="mb-8 max-w-md mx-auto" style={{ color: "rgba(255,255,255,0.8)" }}>
-          Join thousands of teams already building better products with DesignBase.
+          Join thousands of teams already building better products with Ergo, Design.
         </p>
         <Link
           href="/signup"
@@ -119,7 +119,7 @@ export default function LandingPage() {
         className="text-center py-8 text-xs"
         style={{ color: "var(--ds-color-text-muted)", borderTop: "1px solid var(--ds-color-border-default)" }}
       >
-        © 2026 DesignBase. All rights reserved.
+        © 2026 Ergo, Design. All rights reserved.
       </footer>
     </div>
   );

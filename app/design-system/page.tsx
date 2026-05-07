@@ -39,7 +39,7 @@ export default function DesignSystemPage() {
       <Box style={{ background: "var(--ds-color-bg-elevated)", borderBottom: "1px solid var(--ds-color-border-default)", padding: "var(--ds-space-5) var(--ds-space-8)" }}>
         <HStack justify="between">
           <HStack gap={3}>
-            <Text variant="heading" size="xl">DesignBase</Text>
+            <Text variant="heading" size="xl">Ergo, Design</Text>
             <Badge variant="subtle" colorScheme="brand">Components</Badge>
           </HStack>
           <HStack gap={3}>
