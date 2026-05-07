@@ -45,7 +45,7 @@ const sections = [
 
 function CodeBlock({ code }: { code: string }) {
   return (
-    <pre className="mt-3 p-4 rounded-xl text-xs font-mono bg-gray-950 text-gray-100 overflow-x-auto leading-relaxed">
+    <pre className="mt-3 p-4 rounded-xl text-xs font-mono bg-gray-950 dark:bg-black text-gray-100 overflow-x-auto leading-relaxed">
       {code}
     </pre>
   );
@@ -54,25 +54,22 @@ function CodeBlock({ code }: { code: string }) {
 export default function DocsPage() {
   return (
     <div className="p-8 max-w-3xl mx-auto font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-2xl font-bold text-gray-900 mb-1">Documentation</h1>
-      <p className="text-gray-500 mb-10">Everything you need to build with Ergo, Design.</p>
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-1">Documentation</h1>
+      <p className="text-gray-500 dark:text-gray-400 mb-10">Everything you need to build with Ergo, Design.</p>
 
       <div className="flex flex-col gap-12">
         {sections.map((section) => (
           <div key={section.heading}>
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-indigo-600 mb-4">
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-4">
               {section.heading}
             </h2>
             <div className="flex flex-col gap-6">
               {section.items.map((item) => (
-                <div key={item.title} className="border-l-2 border-gray-100 pl-5">
-                  <Link
-                    href={item.href}
-                    className="font-semibold text-gray-900 hover:text-indigo-600 transition-colors"
-                  >
+                <div key={item.title} className="border-l-2 border-gray-100 dark:border-gray-800 pl-5">
+                  <Link href={item.href} className="font-semibold text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                     {item.title} →
                   </Link>
-                  <p className="text-sm text-gray-500 mt-0.5">{item.desc}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{item.desc}</p>
                   {"code" in item && item.code && <CodeBlock code={item.code} />}
                 </div>
               ))}

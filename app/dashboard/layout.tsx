@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
+import { useTheme } from "@designbase/components";
 
 const navItems = [
   { label: "Overview", href: "/dashboard", icon: "▦" },
@@ -15,6 +16,7 @@ const navItems = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, isLoading, logout } = useAuth();
+  const { resolvedTheme, toggleTheme } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -25,11 +27,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!isLoading && !user) return null;
 
   return (
-    <div className="min-h-screen flex bg-gray-50 font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-950 font-[family-name:var(--font-geist-sans)]">
       {/* Sidebar */}
-      <aside className="w-60 shrink-0 flex flex-col bg-white border-r border-gray-100 py-6">
+      <aside className="w-60 shrink-0 flex flex-col bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 py-6">
         <div className="px-6 mb-8">
-          <span className="text-lg font-bold text-gray-900">Ergo, Design</span>
+          <span className="text-lg font-bold text-gray-900 dark:text-gray-50">Ergo, Design</span>
         </div>
         <nav className="flex flex-col gap-1 px-3 flex-1">
           {navItems.map((item) => {
@@ -40,8 +42,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   active
-                    ? "bg-indigo-50 text-indigo-700"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                    ? "bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300"
+                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100"
                 }`}
               >
                 <span className="text-base">{item.icon}</span>
@@ -50,21 +52,27 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             );
           })}
         </nav>
-        <div className="px-3 pt-4 border-t border-gray-100 mt-4">
+        <div className="px-3 pt-4 border-t border-gray-100 dark:border-gray-800 mt-4">
           {user && (
             <>
               <div className="flex items-center gap-3 px-3 py-2">
-                <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold uppercase">
+                <div className="w-7 h-7 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 flex items-center justify-center text-xs font-bold uppercase">
                   {user.name[0]}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
-                  <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{user.name}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{user.email}</p>
                 </div>
               </div>
               <button
+                onClick={toggleTheme}
+                className="w-full text-left px-3 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors mt-1"
+              >
+                {resolvedTheme === "dark" ? "☀ Light mode" : "☾ Dark mode"}
+              </button>
+              <button
                 onClick={logout}
-                className="w-full text-left px-3 py-2 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors mt-1"
+                className="w-full text-left px-3 py-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
               >
                 Sign out
               </button>
