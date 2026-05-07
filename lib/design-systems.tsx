@@ -1,8 +1,9 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import type { StyleTemplate } from "./templates";
 
-export type StyleTemplate = "modern" | "brutalist" | "minimalist" | "sophisticated" | "contemporary" | "traditional";
+export type { StyleTemplate } from "./templates";
 
 export interface DesignSystem {
   id: string;
@@ -11,13 +12,18 @@ export interface DesignSystem {
   brandColors: string[];
   createdAt: string;
   updatedAt: string;
+  trashedAt?: string;
 }
 
 interface DesignSystemsContextValue {
   systems: DesignSystem[];
   isLoading: boolean;
   createSystem: (name: string, template: StyleTemplate, brandColors: string[]) => DesignSystem;
-  deleteSystem: (id: string) => void;
+  updateSystem: (id: string, updates: Partial<Pick<DesignSystem, "name" | "template" | "brandColors">>) => void;
+  duplicateSystem: (id: string) => void;
+  trashSystem: (id: string) => void;
+  restoreSystem: (id: string) => void;
+  permanentDeleteSystem: (id: string) => void;
 }
 
 const DesignSystemsContext = createContext<DesignSystemsContextValue | null>(null);
@@ -55,12 +61,58 @@ export function DesignSystemsProvider({ children }: { children: React.ReactNode 
     return system;
   }
 
-  function deleteSystem(id: string) {
+  function updateSystem(id: string, updates: Partial<Pick<DesignSystem, "name" | "template" | "brandColors">>) {
+    persist(
+      systems.map((s) =>
+        s.id === id ? { ...s, ...updates, updatedAt: new Date().toISOString() } : s
+      )
+    );
+  }
+
+  function duplicateSystem(id: string) {
+    const source = systems.find((s) => s.id === id);
+    if (!source) return;
+    const now = new Date().toISOString();
+    const copy: DesignSystem = {
+      ...source,
+      id: `ds_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      name: `${source.name} (copy)`,
+      createdAt: now,
+      updatedAt: now,
+      trashedAt: undefined,
+    };
+    const idx = systems.findIndex((s) => s.id === id);
+    const next = [...systems];
+    next.splice(idx + 1, 0, copy);
+    persist(next);
+  }
+
+  function trashSystem(id: string) {
+    persist(
+      systems.map((s) =>
+        s.id === id ? { ...s, trashedAt: new Date().toISOString() } : s
+      )
+    );
+  }
+
+  function restoreSystem(id: string) {
+    persist(
+      systems.map((s) => {
+        if (s.id !== id) return s;
+        const { trashedAt: _, ...rest } = s;
+        return rest;
+      })
+    );
+  }
+
+  function permanentDeleteSystem(id: string) {
     persist(systems.filter((s) => s.id !== id));
   }
 
   return (
-    <DesignSystemsContext.Provider value={{ systems, isLoading, createSystem, deleteSystem }}>
+    <DesignSystemsContext.Provider
+      value={{ systems, isLoading, createSystem, updateSystem, duplicateSystem, trashSystem, restoreSystem, permanentDeleteSystem }}
+    >
       {children}
     </DesignSystemsContext.Provider>
   );
