@@ -14,14 +14,15 @@ const navItems = [
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { user, logout } = useAuth();
+  const { user, isLoading, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!user) router.push("/login");
-  }, [user, router]);
+    if (!isLoading && !user) router.push("/login");
+  }, [isLoading, user, router]);
 
+  if (isLoading) return null;
   if (!user) return null;
 
   return (
