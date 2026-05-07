@@ -33,7 +33,7 @@ export const lightTheme = {
   'color-warning-text':     'var(--ds-palette-warning-700)',
 } as const;
 
-export const darkTheme: Partial<typeof lightTheme> = {
+export const darkTheme: Partial<Record<keyof typeof lightTheme, string>> = {
   'color-bg-primary':       'var(--ds-palette-neutral-900)',
   'color-bg-secondary':     'var(--ds-palette-neutral-800)',
   'color-bg-elevated':      'var(--ds-palette-neutral-800)',
