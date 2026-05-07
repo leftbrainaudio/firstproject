@@ -237,7 +237,7 @@ function SystemCard({
       <div className="absolute top-6 right-4 z-10">
         <button
           onClick={(e) => { e.preventDefault(); setMenuOpen(!menuOpen); }}
-          className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 transition-all text-base leading-none"
+          className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 transition-all text-base leading-none"
           title="Actions"
         >
           ···
