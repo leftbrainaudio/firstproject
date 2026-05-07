@@ -245,25 +245,25 @@ function SystemCard({
         {menuOpen && (
           <>
             <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-            <div className="absolute right-0 top-8 z-20 w-44 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl py-1 overflow-hidden">
+            <div className="absolute right-0 top-8 z-20 w-36 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl py-1 overflow-hidden">
               <button
                 onClick={(e) => { e.preventDefault(); setMenuOpen(false); onEdit(); }}
-                className="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors flex items-center gap-2.5"
+                className="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
-                <span className="text-base">✏</span> Edit
+                Edit
               </button>
               <button
                 onClick={(e) => { e.preventDefault(); setMenuOpen(false); onDuplicate(); }}
-                className="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors flex items-center gap-2.5"
+                className="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
-                <span className="text-base">⧉</span> Duplicate
+                Duplicate
               </button>
               <div className="my-1 border-t border-gray-100 dark:border-gray-800" />
               <button
                 onClick={(e) => { e.preventDefault(); setMenuOpen(false); onTrash(); }}
-                className="w-full text-left px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors flex items-center gap-2.5"
+                className="w-full text-left px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> Move to trash
+                Delete
               </button>
             </div>
           </>
