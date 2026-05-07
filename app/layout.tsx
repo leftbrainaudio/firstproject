@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
+import { DesignSystemsProvider } from "@/lib/design-systems";
 import { ThemeProvider } from "@designbase/components";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -17,7 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <ThemeProvider defaultTheme="system">
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <DesignSystemsProvider>{children}</DesignSystemsProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
