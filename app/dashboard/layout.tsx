@@ -27,9 +27,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!isLoading && !user) return null;
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-950 font-[family-name:var(--font-geist-sans)]">
+    <div className="h-screen flex overflow-hidden bg-gray-50 dark:bg-gray-950 font-[family-name:var(--font-geist-sans)]">
       {/* Sidebar */}
-      <aside className="w-60 shrink-0 flex flex-col bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 py-6">
+      <aside className="w-60 shrink-0 flex flex-col h-full bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 py-6">
         <div className="px-6 mb-8">
           <span className="text-lg font-bold text-gray-900 dark:text-gray-50">Ergo, Design</span>
         </div>
@@ -82,7 +82,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main */}
-      <main className="flex-1 overflow-auto">
+      <main className="flex-1 h-full overflow-y-auto">
         {isLoading ? null : children}
       </main>
     </div>
