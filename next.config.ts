@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  transpilePackages: ["@designbase/tokens", "@designbase/components"],
 };
 
 export default nextConfig;

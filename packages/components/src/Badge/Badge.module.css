@@ -1,0 +1,36 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-1);
+  font-family: var(--ds-font-family-sans);
+  font-weight: var(--ds-font-weight-semibold);
+  border-radius: var(--ds-radius-full);
+  border: 1.5px solid transparent;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.sm { font-size: 0.65rem; padding: 0.2em 0.6em; }
+.md { font-size: var(--ds-font-size-xs); padding: 0.3em 0.7em; }
+.lg { font-size: var(--ds-font-size-sm); padding: 0.35em 0.85em; }
+
+/* Solid */
+.solid.brand   { background: var(--ds-color-accent-default); color: var(--ds-color-text-inverted); }
+.solid.neutral { background: var(--ds-color-text-secondary); color: var(--ds-color-text-inverted); }
+.solid.success { background: var(--ds-color-success-default); color: var(--ds-color-text-inverted); }
+.solid.error   { background: var(--ds-color-error-default); color: var(--ds-color-text-inverted); }
+.solid.warning { background: var(--ds-color-warning-default); color: var(--ds-color-text-inverted); }
+
+/* Subtle */
+.subtle.brand   { background: var(--ds-color-accent-subtle); color: var(--ds-color-accent-text); }
+.subtle.neutral { background: var(--ds-color-bg-secondary); color: var(--ds-color-text-secondary); }
+.subtle.success { background: var(--ds-color-success-subtle); color: var(--ds-color-success-text); }
+.subtle.error   { background: var(--ds-color-error-subtle); color: var(--ds-color-error-text); }
+.subtle.warning { background: var(--ds-color-warning-subtle); color: var(--ds-color-warning-text); }
+
+/* Outline */
+.outline.brand   { border-color: var(--ds-color-accent-default); color: var(--ds-color-text-accent); }
+.outline.neutral { border-color: var(--ds-color-border-default); color: var(--ds-color-text-secondary); }
+.outline.success { border-color: var(--ds-color-success-default); color: var(--ds-color-success-text); }
+.outline.error   { border-color: var(--ds-color-error-default); color: var(--ds-color-error-text); }
+.outline.warning { border-color: var(--ds-color-warning-default); color: var(--ds-color-warning-text); }

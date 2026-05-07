@@ -1,0 +1,71 @@
+.input {
+  display: block;
+  width: 100%;
+  font-family: var(--ds-font-family-sans);
+  background: var(--ds-color-bg-primary);
+  color: var(--ds-color-text-primary);
+  border: 1.5px solid var(--ds-color-border-default);
+  border-radius: var(--ds-radius-lg);
+  outline: none;
+  transition: border-color 120ms, box-shadow 120ms, background 120ms;
+}
+
+.input::placeholder { color: var(--ds-color-text-muted); }
+
+.input:hover:not(:disabled):not(.invalid) {
+  border-color: var(--ds-color-border-strong);
+}
+
+.input:focus:not(:disabled) {
+  border-color: var(--ds-color-border-focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ds-color-border-focus) 20%, transparent);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--ds-color-bg-secondary);
+}
+
+.invalid {
+  border-color: var(--ds-color-error-default) !important;
+}
+.invalid:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ds-color-error-default) 20%, transparent) !important;
+}
+
+/* Variants */
+.filled {
+  background: var(--ds-color-bg-secondary);
+  border-color: transparent;
+}
+.filled:hover:not(:disabled) { background: var(--ds-color-bg-secondary); border-color: var(--ds-color-border-default); }
+.filled:focus:not(:disabled) { background: var(--ds-color-bg-primary); }
+
+/* Sizes */
+.sm { font-size: var(--ds-font-size-xs); padding: var(--ds-space-1) var(--ds-space-3); }
+.md { font-size: var(--ds-font-size-sm); padding: var(--ds-space-2) var(--ds-space-3); }
+.lg { font-size: var(--ds-font-size-md); padding: var(--ds-space-3) var(--ds-space-4); }
+
+/* Wrapper for icon support */
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.leftIcon, .rightIcon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  color: var(--ds-color-text-muted);
+  pointer-events: none;
+}
+.leftIcon { left: var(--ds-space-3); }
+.rightIcon { right: var(--ds-space-3); }
+
+.hasLeft  { padding-left: 2.25rem; }
+.hasRight { padding-right: 2.25rem; }
+
+.helperText { font-size: var(--ds-font-size-xs); margin-top: var(--ds-space-1); color: var(--ds-color-text-muted); }
+.errorText  { font-size: var(--ds-font-size-xs); margin-top: var(--ds-space-1); color: var(--ds-color-error-text); }
