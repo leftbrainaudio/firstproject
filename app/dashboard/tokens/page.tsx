@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 type TokenType = "color" | "typography" | "spacing";
+type ActiveTab = "all" | TokenType;
 
 interface Token {
   id: string;
@@ -10,6 +11,8 @@ interface Token {
   value: string;
   description?: string;
 }
+
+type TokenRow = Token & { type: TokenType };
 
 const initialTokens: Record<TokenType, Token[]> = {
   color: [
@@ -47,18 +50,25 @@ const initialTokens: Record<TokenType, Token[]> = {
   ],
 };
 
-const tabLabels: { key: TokenType; label: string; icon: string }[] = [
-  { key: "color", label: "Colors", icon: "🎨" },
+const tabLabels: { key: ActiveTab; label: string; icon: string }[] = [
+  { key: "all",        label: "All",        icon: "☰"  },
+  { key: "color",      label: "Colors",     icon: "🎨" },
   { key: "typography", label: "Typography", icon: "Aa" },
-  { key: "spacing", label: "Spacing", icon: "↔" },
+  { key: "spacing",    label: "Spacing",    icon: "↔"  },
 ];
+
+const typeBadge: Record<TokenType, { label: string; cls: string }> = {
+  color:      { label: "Color",      cls: "bg-indigo-50 text-indigo-700" },
+  typography: { label: "Typography", cls: "bg-purple-50 text-purple-700" },
+  spacing:    { label: "Spacing",    cls: "bg-teal-50 text-teal-700"     },
+};
 
 function isHexColor(val: string) {
   return /^#[0-9a-fA-F]{3,8}$/.test(val);
 }
 
 export default function TokensPage() {
-  const [activeTab, setActiveTab] = useState<TokenType>("color");
+  const [activeTab, setActiveTab] = useState<ActiveTab>("all");
   const [tokens, setTokens] = useState(initialTokens);
   const [editing, setEditing] = useState<string | null>(null);
   const [draft, setDraft] = useState<Partial<Token>>({});
@@ -67,8 +77,26 @@ export default function TokensPage() {
   const [search, setSearch] = useState("");
   const [saved, setSaved] = useState(false);
 
-  const filtered = tokens[activeTab].filter(
-    (t) => t.name.toLowerCase().includes(search.toLowerCase()) || t.value.toLowerCase().includes(search.toLowerCase())
+  function tokenTypeById(id: string): TokenType {
+    for (const type of ["color", "typography", "spacing"] as TokenType[]) {
+      if (tokens[type].some((t) => t.id === id)) return type;
+    }
+    return "color";
+  }
+
+  const allRows: TokenRow[] = (["color", "typography", "spacing"] as TokenType[]).flatMap(
+    (type) => tokens[type].map((t) => ({ ...t, type }))
+  );
+
+  const sourceList: TokenRow[] =
+    activeTab === "all"
+      ? allRows
+      : tokens[activeTab].map((t) => ({ ...t, type: activeTab }));
+
+  const filtered = sourceList.filter(
+    (t) =>
+      t.name.toLowerCase().includes(search.toLowerCase()) ||
+      t.value.toLowerCase().includes(search.toLowerCase())
   );
 
   function startEdit(token: Token) {
@@ -78,23 +106,25 @@ export default function TokensPage() {
 
   function saveEdit() {
     if (!editing) return;
+    const type = tokenTypeById(editing);
     setTokens((prev) => ({
       ...prev,
-      [activeTab]: prev[activeTab].map((t) => (t.id === editing ? { ...t, ...draft } : t)),
+      [type]: prev[type].map((t) => (t.id === editing ? { ...t, ...draft } : t)),
     }));
     setEditing(null);
     setDraft({});
   }
 
   function deleteToken(id: string) {
+    const type = tokenTypeById(id);
     setTokens((prev) => ({
       ...prev,
-      [activeTab]: prev[activeTab].filter((t) => t.id !== id),
+      [type]: prev[type].filter((t) => t.id !== id),
     }));
   }
 
   function addToken() {
-    if (!newToken.name || !newToken.value) return;
+    if (!newToken.name || !newToken.value || activeTab === "all") return;
     const token: Token = {
       id: `${activeTab[0]}${Date.now()}`,
       name: newToken.name,
@@ -120,6 +150,10 @@ export default function TokensPage() {
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }
+
+  const totalCount = activeTab === "all"
+    ? allRows.length
+    : tokens[activeTab].length;
 
   return (
     <div className="p-8 max-w-4xl mx-auto font-[family-name:var(--font-geist-sans)]">
@@ -160,16 +194,18 @@ export default function TokensPage() {
           placeholder="Search tokens..."
           className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
         />
-        <button
-          onClick={() => setAdding(true)}
-          className="px-4 py-2 bg-gray-900 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 transition-colors"
-        >
-          + Add token
-        </button>
+        {activeTab !== "all" && (
+          <button
+            onClick={() => setAdding(true)}
+            className="px-4 py-2 bg-gray-900 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 transition-colors"
+          >
+            + Add token
+          </button>
+        )}
       </div>
 
       {/* Add Token Form */}
-      {adding && (
+      {adding && activeTab !== "all" && (
         <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 mb-4 flex flex-col gap-3">
           <p className="text-sm font-semibold text-indigo-800">New token</p>
           <div className="grid grid-cols-2 gap-3">
@@ -203,7 +239,7 @@ export default function TokensPage() {
         </div>
       )}
 
-      {/* Token List */}
+      {/* Token Table */}
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
         {filtered.length === 0 ? (
           <div className="py-16 text-center text-gray-400 text-sm">No tokens found.</div>
@@ -211,6 +247,7 @@ export default function TokensPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100 text-xs font-semibold text-gray-400 uppercase tracking-wide">
+                {activeTab === "all" && <th className="text-left px-5 py-3">Type</th>}
                 <th className="text-left px-5 py-3">Name</th>
                 <th className="text-left px-5 py-3">Value</th>
                 <th className="text-left px-5 py-3 hidden sm:table-cell">Description</th>
@@ -219,9 +256,19 @@ export default function TokensPage() {
             </thead>
             <tbody>
               {filtered.map((token, i) => (
-                <tr key={token.id} className={`border-b border-gray-50 hover:bg-gray-50/50 transition-colors ${i === filtered.length - 1 ? "border-b-0" : ""}`}>
+                <tr
+                  key={token.id}
+                  className={`border-b border-gray-50 hover:bg-gray-50/50 transition-colors ${i === filtered.length - 1 ? "border-b-0" : ""}`}
+                >
                   {editing === token.id ? (
                     <>
+                      {activeTab === "all" && (
+                        <td className="px-5 py-3">
+                          <span className={`text-xs font-semibold px-2 py-1 rounded-full ${typeBadge[token.type].cls}`}>
+                            {typeBadge[token.type].label}
+                          </span>
+                        </td>
+                      )}
                       <td className="px-5 py-3">
                         <input
                           value={draft.name ?? ""}
@@ -263,6 +310,13 @@ export default function TokensPage() {
                     </>
                   ) : (
                     <>
+                      {activeTab === "all" && (
+                        <td className="px-5 py-3">
+                          <span className={`text-xs font-semibold px-2 py-1 rounded-full ${typeBadge[token.type].cls}`}>
+                            {typeBadge[token.type].label}
+                          </span>
+                        </td>
+                      )}
                       <td className="px-5 py-3 font-mono text-gray-700">{token.name}</td>
                       <td className="px-5 py-3">
                         <div className="flex items-center gap-2">
@@ -292,7 +346,9 @@ export default function TokensPage() {
       </div>
 
       <p className="text-xs text-gray-400 mt-3 text-right">
-        {tokens[activeTab].length} token{tokens[activeTab].length !== 1 ? "s" : ""}
+        {filtered.length !== totalCount
+          ? `${filtered.length} of ${totalCount}`
+          : totalCount} token{totalCount !== 1 ? "s" : ""}
       </p>
     </div>
   );
