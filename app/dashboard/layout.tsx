@@ -22,8 +22,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     if (!isLoading && !user) router.push("/login");
   }, [isLoading, user, router]);
 
-  if (isLoading) return null;
-  if (!user) return null;
+  if (!isLoading && !user) return null;
 
   return (
     <div className="min-h-screen flex bg-gray-50 font-[family-name:var(--font-geist-sans)]">
@@ -52,26 +51,32 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           })}
         </nav>
         <div className="px-3 pt-4 border-t border-gray-100 mt-4">
-          <div className="flex items-center gap-3 px-3 py-2">
-            <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold uppercase">
-              {user.name[0]}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
-              <p className="text-xs text-gray-400 truncate">{user.email}</p>
-            </div>
-          </div>
-          <button
-            onClick={logout}
-            className="w-full text-left px-3 py-2 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors mt-1"
-          >
-            Sign out
-          </button>
+          {user && (
+            <>
+              <div className="flex items-center gap-3 px-3 py-2">
+                <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold uppercase">
+                  {user.name[0]}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
+                  <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                </div>
+              </div>
+              <button
+                onClick={logout}
+                className="w-full text-left px-3 py-2 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors mt-1"
+              >
+                Sign out
+              </button>
+            </>
+          )}
         </div>
       </aside>
 
       {/* Main */}
-      <main className="flex-1 overflow-auto">{children}</main>
+      <main className="flex-1 overflow-auto">
+        {isLoading ? null : children}
+      </main>
     </div>
   );
 }
